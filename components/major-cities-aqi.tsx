@@ -41,13 +41,13 @@ export default function MajorCitiesAQI() {
             const response = await fetch(`/api/aqi?lat=${city.lat}&lon=${city.lon}`)
             if (!response.ok) {
               const errorData = await response.json()
-              console.error(`API Route Error for ${city.name}:`, errorData.error)
+              console.warn(`API Route Warning for ${city.name}:`, errorData.error)
               throw new Error(`Failed to fetch AQI data for ${city.name}`)
             }
             const data = await response.json()
             return { ...city, aqi: data.aqi, loading: false }
           } catch (err) {
-            console.error(`Failed to fetch AQI for ${city.name}:`, err)
+            console.warn(`Failed to fetch AQI for ${city.name}:`, err)
             return { ...city, loading: false }
           }
         }),
@@ -60,11 +60,11 @@ export default function MajorCitiesAQI() {
 
   return (
     <section className="max-w-6xl mx-auto mt-10 px-6">
-      <Card className="shadow-lg">
+      <Card className="border border-white/15 bg-white/10 text-slate-100 shadow-2xl backdrop-blur">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Major Indian Cities AQI</CardTitle>
-          <CardDescription className="text-sm text-muted-foreground">
-            Real-time air quality index across India
+          <CardTitle className="text-2xl font-bold text-slate-50">Major Indian Cities AQI</CardTitle>
+          <CardDescription className="text-sm text-slate-300">
+            Real-time US AQI (0-500) across India
           </CardDescription>
         </CardHeader>
 
@@ -73,15 +73,15 @@ export default function MajorCitiesAQI() {
             {cities.map((city) => (
               <div
                 key={city.name}
-                className="w-36 h-36 sm:w-40 sm:h-40 bg-secondary rounded-xl p-4 flex flex-col justify-between items-center text-center hover:shadow-md transition-shadow"
+                className="w-36 h-36 sm:w-40 sm:h-40 rounded-xl border border-white/10 bg-white/10 p-4 text-center text-slate-100 shadow-lg backdrop-blur transition hover:bg-white/15"
               >
-                <h3 className="font-semibold text-foreground">{city.name}</h3>
+                <h3 className="font-semibold text-slate-100">{city.name}</h3>
                 {city.loading ? (
-                  <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                  <Loader2 className="w-6 h-6 animate-spin text-cyan-300" />
                 ) : city.aqi !== null ? (
                   <AQIBadge aqi={city.aqi} size="small" />
                 ) : (
-                  <p className="text-xs text-muted-foreground">Unable to load</p>
+                  <p className="text-xs text-slate-300">Unable to load</p>
                 )}
               </div>
             ))}

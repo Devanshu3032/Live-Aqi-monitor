@@ -2,39 +2,30 @@
 
 import React from 'react';
 
-// Define the mapping from OWM Index (1-5) to US AQI Range/Color
-const OWM_TO_US_AQI_MAPPING = [
-  // OWM Index 1: Good (US AQI 0-50). Display representative number (e.g., 35)
-  { level: 1, name: 'Good', color: 'bg-green-500', text: 'text-white', usAqi: 35 },
-  // OWM Index 2: Fair (US AQI 51-100). Display representative number (e.g., 75)
-  { level: 2, name: 'Moderate', color: 'bg-yellow-500', text: 'text-gray-900', usAqi: 75 },
-  // OWM Index 3: Moderate (US AQI 101-150). Display representative number (e.g., 125)
-  { level: 3, name: 'Unhealthy for Sensitive Groups', color: 'bg-orange-500', text: 'text-white', usAqi: 125 },
-  // OWM Index 4: Poor (US AQI 151-200). Display representative number (e.g., 175)
-  { level: 4, name: 'Unhealthy', color: 'bg-red-600', text: 'text-white', usAqi: 175 },
-  // OWM Index 5: Very Poor (US AQI 201+). Display representative number (e.g., 250)
-  { level: 5, name: 'Very Unhealthy', color: 'bg-purple-700', text: 'text-white', usAqi: 250 },
-];
+const getAqiCategory = (aqi: number) => {
+  if (aqi <= 50) return { name: 'Good', tint: 'from-emerald-400/35 to-emerald-600/20', ring: 'ring-emerald-300/40', text: 'text-emerald-100' };
+  if (aqi <= 100) return { name: 'Moderate', tint: 'from-yellow-300/35 to-yellow-600/20', ring: 'ring-yellow-300/40', text: 'text-yellow-100' };
+  if (aqi <= 150) return { name: 'Unhealthy for Sensitive Groups', tint: 'from-orange-300/35 to-orange-600/20', ring: 'ring-orange-300/40', text: 'text-orange-100' };
+  if (aqi <= 200) return { name: 'Unhealthy', tint: 'from-red-300/35 to-red-700/20', ring: 'ring-red-300/40', text: 'text-red-100' };
+  if (aqi <= 300) return { name: 'Very Unhealthy', tint: 'from-fuchsia-300/35 to-fuchsia-700/20', ring: 'ring-fuchsia-300/40', text: 'text-fuchsia-100' };
+  return { name: 'Hazardous', tint: 'from-rose-300/35 to-rose-800/25', ring: 'ring-rose-300/40', text: 'text-rose-100' };
+};
 
 interface AQIBadgeProps {
-  aqi: number | null; // This is the OWM 1-5 index
+  aqi: number | null;
   size?: 'small' | 'medium' | 'large';
 }
 
-/**
- * Converts OWM 1-5 scale to a representative US AQI value (0-500) for display.
- */
 const AQIBadge: React.FC<AQIBadgeProps> = ({ aqi, size = 'medium' }) => {
-  if (aqi === null || aqi < 1 || aqi > 5) {
+  if (aqi === null || !Number.isFinite(aqi) || aqi < 0 || aqi > 500) {
     return (
-      <div className="rounded-xl bg-gray-400 px-3 py-1 text-sm font-semibold text-white shadow-lg">
+      <div className="rounded-xl bg-white/10 px-3 py-1 text-sm font-semibold text-white ring-1 ring-white/20">
         N/A
       </div>
     );
   }
 
-  // Find the corresponding mapping object based on the OWM index (aqi)
-  const mapping = OWM_TO_US_AQI_MAPPING.find(r => r.level === aqi) || OWM_TO_US_AQI_MAPPING[0];
+  const category = getAqiCategory(aqi);
 
   const sizeClasses = {
     small: 'px-2 py-1 text-xs',
@@ -44,16 +35,17 @@ const AQIBadge: React.FC<AQIBadgeProps> = ({ aqi, size = 'medium' }) => {
 
   return (
     <div
-      className={`inline-flex flex-col items-center justify-center rounded-xl shadow-lg transition-all duration-300
-        ${mapping.color} ${mapping.text} ${sizeClasses[size]}
+      className={`inline-flex flex-col items-center justify-center rounded-xl border border-white/20 bg-gradient-to-br shadow-lg backdrop-blur transition-all duration-300
+        ${category.tint} ${category.ring} ${category.text} ${sizeClasses[size]} ring-1
       `}
     >
         <span className="text-sm font-light uppercase opacity-80" style={{ fontSize: size === 'large' ? '0.8rem' : '0.6rem' }}>
-            {mapping.name}
+            {category.name}
         </span>
         <span className="block" style={{ fontSize: size === 'large' ? '3rem' : '1.5rem' }}>
-            {mapping.usAqi} {/* Display the representative US AQI value */}
+            {aqi}
         </span>
+        <span className="text-[9px] uppercase tracking-wide opacity-80">US AQI</span>
     </div>
   );
 };

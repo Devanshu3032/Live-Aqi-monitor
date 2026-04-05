@@ -14,7 +14,7 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
         level: "Loading",
         tips: ["Detecting your location..."],
         icon: AlertCircle,
-        color: "text-muted-foreground",
+        color: "text-slate-300",
       }
     }
 
@@ -28,7 +28,7 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
           "✓ Perfect time for exercise",
         ],
         icon: Heart,
-        color: "text-green-600",
+        color: "text-emerald-300",
       }
     }
 
@@ -42,7 +42,7 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
           "⚠ Keep windows closed during peak hours",
         ],
         icon: Wind,
-        color: "text-yellow-600",
+        color: "text-yellow-300",
       }
     }
 
@@ -57,7 +57,7 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
           "⚠ Increase water intake",
         ],
         icon: Eye,
-        color: "text-orange-600",
+        color: "text-orange-300",
       }
     }
 
@@ -73,7 +73,7 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
           "🚨 Consult doctor if experiencing symptoms",
         ],
         icon: AlertCircle,
-        color: "text-red-600",
+        color: "text-red-300",
       }
     }
 
@@ -89,7 +89,7 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
           "🚨 Seek medical help if symptoms worsen",
         ],
         icon: AlertCircle,
-        color: "text-purple-600",
+        color: "text-fuchsia-300",
       }
     }
 
@@ -104,7 +104,7 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
         "🚨 Consider relocating temporarily",
       ],
       icon: AlertCircle,
-      color: "text-red-900",
+      color: "text-rose-300",
     }
   }
 
@@ -112,13 +112,14 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
   const IconComponent = safetyInfo.icon
 
   return (
-    <Card className="shadow-lg h-full">
+    <Card className="h-full border border-white/15 bg-white/10 text-slate-100 shadow-2xl backdrop-blur">
       <CardHeader>
         <div className="flex items-center gap-2">
           <IconComponent className={`w-5 h-5 ${safetyInfo.color}`} />
           <div>
-            <CardTitle>Safety Recommendations</CardTitle>
+            <CardTitle className="text-slate-50">Safety Recommendations</CardTitle>
             <CardDescription className={safetyInfo.color}>{safetyInfo.level}</CardDescription>
+            <CardDescription className="text-slate-300">Based on US AQI scale (0-500)</CardDescription>
           </div>
         </div>
       </CardHeader>
@@ -126,14 +127,14 @@ export default function SafetyTips({ aqi }: SafetyTipsProps) {
       <CardContent>
         <ul className="space-y-3">
           {safetyInfo.tips.map((tip, index) => (
-            <li key={index} className="text-sm text-foreground leading-relaxed">
+            <li key={index} className="text-sm text-slate-100 leading-relaxed">
               {tip}
             </li>
           ))}
         </ul>
 
-        <div className="mt-6 p-4 bg-secondary rounded-lg">
-          <p className="text-xs text-muted-foreground">
+        <div className="mt-6 rounded-lg border border-white/10 bg-white/10 p-4">
+          <p className="text-xs text-slate-300">
             <strong>Note:</strong> These recommendations are based on AQI levels. For medical concerns, consult a
             healthcare professional.
           </p>

@@ -8,26 +8,23 @@ import Header from "@/components/header"
 
 export default function Home() {
   const [currentAQI, setCurrentAQI] = useState<number | null>(null)
-  const [location, setLocation] = useState<string>("")
+  const [, setLocation] = useState<string>("")
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background to-secondary">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_20%_20%,#51608a_0%,#3e4463_30%,#24293f_55%,#1a1d2f_100%)]">
       <Header />
 
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto max-w-6xl px-4 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Current Location AQI */}
           <div className="lg:col-span-2">
             <CurrentLocationAQI onAQIUpdate={setCurrentAQI} onLocationUpdate={setLocation} />
           </div>
 
-          {/* Safety Tips */}
           <div>
             <SafetyTips aqi={currentAQI} />
           </div>
         </div>
 
-        {/* Major Cities AQI */}
         <div className="mt-8">
           <MajorCitiesAQI />
         </div>
