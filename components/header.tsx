@@ -10,7 +10,7 @@ export default function Header() {
             <h1 className="text-3xl font-bold tracking-tight">AeroSense - An AQI Determinator</h1>
             <p className="text-sm text-slate-300">Your city air, weather, and forecast in one panel.</p>
             <p className="mt-1 text-xs italic text-slate-400">
-              Made and designed by <span className="font-semibold text-cyan-300">DEVANSHU</span>
+              Made and designed by <span className="font-semibold text-cyan-300">DEVANSHU K</span>
             </p>
           </div>
         </div>
